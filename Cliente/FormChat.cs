@@ -50,14 +50,14 @@ namespace Cliente
         }
         private void AtualizaLogMensagens(string mensagem)
         {
-            if (mensagem[0].ToString() == "0")//se recebido algum erro do servidor
+            if (mensagem[0].ToString() == "0")
             {
-                MessageBox.Show(mensagem.Substring(2));//mostra a mensagem de erro
-                Application.Exit();//fecha o formulário
+                MessageBox.Show(mensagem.Substring(2));
+                Application.Exit();
             }
             else
             {
-                txbLog.AppendText($"{mensagem}\r\n");//senão somente mostrará a mensagem
+                txbLog.AppendText($"{mensagem}\r\n");
             }
         }
 

@@ -34,6 +34,7 @@ namespace Cliente
                 }
             }
         }
+
         private void btnConectar_Click(object sender, EventArgs e)
         {
             Conectar();
