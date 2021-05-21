@@ -10,46 +10,46 @@ namespace Servidor
         public ConexaoUsuario(TcpClient cliente)
         {
             _tcpClient = cliente;
-            _threadValidacao = new Thread(ValidarUsuario); //Inicia o método Validar Usuário em uma Thread para não parar o Servidor
+            _threadValidacao = new Thread(ValidarUsuario);
             _threadValidacao.Start();
         }
 
-        private TcpClient _tcpClient; //Conexão do usuário
-        private Thread _threadValidacao; //Thread que envia ao usuário o resultado da validação (Aceito ou não aceito)
-        private StreamReader _leitorConexao; //Ouve as mensagens do cliente
-        private StreamWriter _escritorConexao; //Envia as mensagens para cliente
-        private string _usuarioAtual; //Nome do usuário
+        private TcpClient _tcpClient;
+        private Thread _threadValidacao;
+        private StreamReader _leitorConexao;
+        private StreamWriter _escritorConexao;
+        private string _usuarioAtual;
 
         private void ValidarUsuario()
         {
-            _leitorConexao = new StreamReader(_tcpClient.GetStream()); //Atribui a conexão que será lida pelo receptor
-            _escritorConexao = new StreamWriter(_tcpClient.GetStream()); //Atribui a conexão a qual o escritor escreverá
-            _usuarioAtual = _leitorConexao.ReadLine(); //Le o nome de usuário recebido pela conexão
+            _leitorConexao = new StreamReader(_tcpClient.GetStream()); 
+            _escritorConexao = new StreamWriter(_tcpClient.GetStream());
+            _usuarioAtual = _leitorConexao.ReadLine();
 
-            if (Server.Usuarios.Count >= 10) //se já atingiu o limite de usuários conectados
+            if (Server.Usuarios.Count >= 10)
             {
                 _escritorConexao.WriteLine("0|Limite de usuários atingido.");
                 _escritorConexao.Flush();
                 FechaConexao();
                 return;
             }
-            if (_usuarioAtual != "") //Se o nome de usuário não é vazio
+            if (_usuarioAtual != "")
             {
-                if (Server.Usuarios.Contains(_usuarioAtual)) //Verificar se o nome de usuário já existe
+                if (Server.Usuarios.Contains(_usuarioAtual))
                 {
                     _escritorConexao.WriteLine("0|Este nome de usuário já existe.");
                     _escritorConexao.Flush();
                     FechaConexao();
                     return;
                 }
-                else if (_usuarioAtual.ToLower() == "administrador") //Verificar se o nome de usuário não é de administrador
+                else if (_usuarioAtual.ToLower() == "administrador")
                 {
                     _escritorConexao.WriteLine("0|Este nome de usuário é reservado.");
                     _escritorConexao.Flush();
                     FechaConexao();
                     return;
                 }
-                else //Tudo certo, cliente pode se conectar
+                else
                 {
                     _escritorConexao.WriteLine("1");
                     _escritorConexao.Flush();
@@ -69,13 +69,13 @@ namespace Servidor
             Server.EnviarMensagemAdmin($"{usuarioAtual} se conectou.");
             AguardarMensagem();
         }
-        private void AguardarMensagem() //Fica ouvindo todas as mensagens enviadas por um usuários
+        private void AguardarMensagem() 
         {
             try
             {
-                while (true) //Atribui a linha lida no leitor de conexão e avalia se ela é diferente de null
+                while (true)
                 {
-                    Server.ValidarMensagem(_usuarioAtual, _leitorConexao.ReadLine());//valida a mensagem recebida para ser enviada
+                    Server.ValidarMensagem(_usuarioAtual, _leitorConexao.ReadLine());
                 }
             }
             catch (Exception)
@@ -85,7 +85,7 @@ namespace Servidor
         }
         private void RemoverUsuario(string usuarioAtual)
         {
-            if (Server.Usuarios[usuarioAtual] != null)//Se o usuário esta na lista, exclui ele da lista de usuários conectados
+            if (Server.Usuarios[usuarioAtual] != null)
             {
                 Server.Usuarios.Remove(usuarioAtual);
                 Server.EnviarMensagemAdmin($"{usuarioAtual} se desconectou. (" +
