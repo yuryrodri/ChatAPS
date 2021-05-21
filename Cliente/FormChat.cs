@@ -10,15 +10,18 @@ namespace Cliente
         {
             InitializeComponent();
             Client.StatusChanged += OnStatusChanged;
-            lblNome.Text += Client._nomeUsuario;
+            lblNome.Text += Client.NomeUsuario;
         }
 
         private void Enviar()
         {
-            Client.EnviarMensagem(txbMensagem.Text);
-            txbMensagem.Text = "";
+            if(txbMensagem.Text.Trim() != "")
+            {
+                Client.EnviarMensagem(txbMensagem.Text);
+                txbMensagem.Text = "";
+            }
         }
-        private void btnEnviar_Click(object sender, System.EventArgs e)
+        private void btnEnviar_Click(object sender, EventArgs e)
         {
             Enviar();
         }
@@ -31,6 +34,14 @@ namespace Cliente
             }
             cmbEmoticons.DroppedDown = false;
         }
+        private void cmbEmoticons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Emoticons emoticons = new Emoticons();
+            txbMensagem.AppendText($" {emoticons.ListaEmoticons[cmbEmoticons.SelectedIndex]} ");
+            txbMensagem.Focus();
+            cmbEmoticons.DroppedDown = true;
+        }
+
         private delegate void AtualizaLog(string mensagem);
         private void OnStatusChanged(object sender, StatusChangedEventArgs args)
         {
@@ -60,13 +71,6 @@ namespace Cliente
                 cmbEmoticons.Items.Add(emoticon.ToString());
             }
             btnEnviar.Focus();
-        }
-        private void cmbEmoticons_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Emoticons emoticons = new Emoticons();
-            txbMensagem.AppendText($" {emoticons.ListaEmoticons[cmbEmoticons.SelectedIndex]} ");
-            txbMensagem.Focus();
-            cmbEmoticons.DroppedDown = true;
         }
         private void lblMinimizar_Click(object sender, EventArgs e)
         {

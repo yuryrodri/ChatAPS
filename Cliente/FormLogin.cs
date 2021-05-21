@@ -23,7 +23,7 @@ namespace Cliente
             {
                 Client cliente = new Client
                     (txbIP.Text, int.Parse(upDownPorta.Text), txbNomeUsuario.Text);
-                cliente.Conectar();
+                cliente.IniciarConexao();
                 MessageBox.Show(cliente.RespostaLogin.Substring(2));
                 if (cliente.RespostaLogin[0] == '1')
                 {

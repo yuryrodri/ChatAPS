@@ -189,7 +189,7 @@ namespace Cliente
             this.pnlMensagem.Size = new System.Drawing.Size(278, 54);
             this.pnlMensagem.TabIndex = 19;
             // 
-            // frmChat
+            // FormChat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -201,7 +201,7 @@ namespace Cliente
             this.Controls.Add(this.pnlMoverJanela);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmChat";
+            this.Name = "FormChat";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chat Sustentável";
             this.Shown += new System.EventHandler(this.frmChat_Shown);

@@ -19,7 +19,6 @@ namespace Servidor
         private StreamReader _leitorConexao; //Ouve as mensagens do cliente
         private StreamWriter _escritorConexao; //Envia as mensagens para cliente
         private string _usuarioAtual; //Nome do usuário
-        private string _resposta; //Mensagem recebida do usuário
 
         private void ValidarUsuario()
         {
@@ -74,9 +73,9 @@ namespace Servidor
         {
             try
             {
-                while ((_resposta = _leitorConexao.ReadLine()) != null) //Atribui a linha lida no leitor de conexão e avalia se ela é diferente de null
+                while (true) //Atribui a linha lida no leitor de conexão e avalia se ela é diferente de null
                 {
-                    Server.ValidarMensagem(_usuarioAtual, _resposta);//valida a mensagem recebida para ser enviada
+                    Server.ValidarMensagem(_usuarioAtual, _leitorConexao.ReadLine());//valida a mensagem recebida para ser enviada
                 }
             }
             catch (Exception)

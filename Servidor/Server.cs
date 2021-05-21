@@ -12,39 +12,39 @@ namespace Servidor
     {
         public Server(IPAddress enderecoIp, int porta)
         {
-            EnderecoIp = enderecoIp;
-            Porta = porta;
+            _enderecoIp = enderecoIp;
+            _porta = porta;
         }
 
         public static Hashtable Usuarios = new Hashtable(10);
         public static EventHandler<StatusChangedEventArgs> StatusChanged;
 
-        private IPAddress EnderecoIp;
-        private int Porta;
-        private TcpClient TcpServer = new TcpClient();
-        private Thread ThreadListener;
-        private TcpListener ListenerServidor;
-        private bool ServidorRodando = false;
+        private IPAddress _enderecoIp;
+        private int _porta;
+        private TcpClient _tcpServer = new TcpClient();
+        private Thread _threadListener;
+        private TcpListener _listenerServidor;
+        private bool _servidorRodando = false;
 
         public void IniciarServidor()
         {
-            ListenerServidor = new TcpListener(EnderecoIp, Porta);
-            ListenerServidor.Start();
+            _listenerServidor = new TcpListener(_enderecoIp, _porta);
+            _listenerServidor.Start();
 
-            ServidorRodando = true;
+            _servidorRodando = true;
 
-            ThreadListener = new Thread(ManterServidor);
-            ThreadListener.IsBackground = true;
-            ThreadListener.Start();
+            _threadListener = new Thread(ManterServidor);
+            _threadListener.IsBackground = true;
+            _threadListener.Start();
         }
         private void ManterServidor()
         {
-            while (ServidorRodando)
+            while (_servidorRodando)
             {
                 try
                 {
-                    TcpServer = ListenerServidor.AcceptTcpClient();
-                    ConexaoUsuario novaConexao = new ConexaoUsuario(TcpServer); 
+                    _tcpServer = _listenerServidor.AcceptTcpClient();
+                    ConexaoUsuario novaConexao = new ConexaoUsuario(_tcpServer); 
                 }
                 catch { }
             }
@@ -73,7 +73,7 @@ namespace Servidor
         public static void EnviarMensagemAdmin(string mensagem)
         {
             StreamWriter mensagemAdmin;
-            OnStatusChanged($"Adminstrador: {mensagem}");
+            OnStatusChanged($"Administrador: {mensagem}");
             foreach (TcpClient cliente in Usuarios.Values)
             {
                 if (mensagem.Trim() == "" || cliente == null)
@@ -92,7 +92,7 @@ namespace Servidor
         }
         public void FecharServidor()
         {
-            ServidorRodando = false;
+            _servidorRodando = false;
             try
             {
                 foreach (TcpClient clienteConectado in Usuarios.Values)
@@ -101,7 +101,7 @@ namespace Servidor
                 }
             }
             catch{ }
-            ListenerServidor.Stop();
+            _listenerServidor.Stop();
         }
         public static void CriarBackup(string logMensagens)
         {

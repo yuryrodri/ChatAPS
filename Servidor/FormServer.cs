@@ -13,7 +13,7 @@ namespace ChatAPS
             InitializeComponent();
         }
 
-        private delegate void AtualizaStatusCallBack(string mensagem); //Delegate que será vinculado ao evento da classe servidor
+        private delegate void AtualizaLogCallBack(string mensagem); //Delegate que será vinculado ao evento da classe servidor
         private bool _servidorRodando = false;
         private Server _servidor; //Classe do servidor que será instanciada posteriormente
 
@@ -73,16 +73,17 @@ namespace ChatAPS
         }
         private void EnviarMensagem()
         {
-            if (txbMensagem.Text.Trim() != "")
+            string mensagem = txbMensagem.Text.Trim();
+            if (mensagem != "")
             {
-                Server.EnviarMensagemAdmin(txbMensagem.Text);
-                txbMensagem.Text = "";
+                Server.EnviarMensagemAdmin(mensagem);
                 txbMensagem.Focus();
             }
+            txbMensagem.Text = "";
         }
         private void OnServidorStatusChanged(object sender, StatusChangedEventArgs args)
         {
-            Invoke(new AtualizaStatusCallBack(AtualizaLog),
+            Invoke(new AtualizaLogCallBack(AtualizaLog),
                     new object[] { args.EventMessage });//Executa o método AtualizaStatus quando solicitado pelo Evento
         }
         private void AtualizaLog(string mensagem)
