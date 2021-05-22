@@ -104,18 +104,20 @@ namespace Servidor
         }
         public static void CriarBackup(string logMensagens)
         {
-            string path = @$"C:\Users\{Environment.UserName}" +
-            @$"\Desktop\Backup\";
             try
             {
+                string path = $@"{Directory.GetCurrentDirectory()}\Backup";
+
                 if (Directory.Exists(path) == false)
                 {
                     DirectoryInfo di = Directory.CreateDirectory(path);
                 }
 
-                using StreamWriter writer = File.CreateText(
-                    @$"{path}\{DateTime.Now:dd-MM-yyyy HHmmss}.txt");
-                writer.WriteLine(logMensagens);
+                using (StreamWriter writer = File.CreateText($"{path}\\" +
+                    $"{DateTime.Now:dd-MM-yyyy HHmmss}.txt"))
+                {
+                    writer.WriteLine(logMensagens);
+                }
             }
             catch { };
         }
