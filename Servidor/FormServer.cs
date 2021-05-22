@@ -52,11 +52,11 @@ namespace ChatAPS
             {
                 Server.StatusChanged -= OnServidorStatusChanged;
                 LogFecharServidor();
-                _servidor.FecharServidor();
-                btnCriarServidor.Text = "Criar servidor";
-                txbMensagem.Enabled = false;
                 CriarBackup();
+                _servidor.FecharServidor();
                 _servidorRodando = false;
+                txbMensagem.Enabled = false;
+                btnCriarServidor.Text = "Criar servidor";
             }
         }
         private void btnEnviarMensagem_Click(object sender, EventArgs e)
