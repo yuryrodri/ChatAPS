@@ -13,9 +13,9 @@ namespace ChatAPS
             InitializeComponent();
         }
 
-        private delegate void AtualizaLogCallBack(string mensagem); //Delegate que será vinculado ao evento da classe servidor
+        private delegate void AtualizaLogCallBack(string mensagem);
         private bool _servidorRodando = false;
-        private Server _servidor; //Classe do servidor que será instanciada posteriormente
+        private Server _servidor;
 
         private void btnCriarServidor_Click(object sender, EventArgs e)
         {
@@ -29,11 +29,11 @@ namespace ChatAPS
                 }
                 try
                 {
-                    IPAddress enderecoIp = IPAddress.Parse(txbIp.Text);//Verifica se o IP digitado é válido
+                    IPAddress enderecoIp = IPAddress.Parse(txbIp.Text);
                     int porta = (int)upDownPort.Value;
 
-                    _servidor = new Server(enderecoIp, porta); //Se a validação funcionou ele inicia o servidor
-                    Server.StatusChanged += OnServidorStatusChanged; //Vincula o método OnServidorStatusChanged ao evento
+                    _servidor = new Server(enderecoIp, porta);
+                    Server.StatusChanged += OnServidorStatusChanged;
                     _servidor.IniciarServidor();
 
                     txbLog.Text = "";
@@ -45,12 +45,12 @@ namespace ChatAPS
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.ToString()); //Exibe o erro em uma messageBox
+                    MessageBox.Show(ex.ToString());
                 }
             }
             else
             {
-                Server.StatusChanged -= OnServidorStatusChanged;//Desvincula o método OnServidorStatusChanged ao evento
+                Server.StatusChanged -= OnServidorStatusChanged;
                 LogFecharServidor();
                 _servidor.FecharServidor();
                 btnCriarServidor.Text = "Criar servidor";

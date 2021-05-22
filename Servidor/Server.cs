@@ -93,14 +93,13 @@ namespace Servidor
         public void FecharServidor()
         {
             _servidorRodando = false;
-            try
+            TcpClient[] clientesConectados = new TcpClient[Usuarios.Values.Count];
+            Usuarios.Values.CopyTo(clientesConectados, 0);
+
+            foreach (TcpClient cliente in clientesConectados)
             {
-                foreach (TcpClient clienteConectado in Usuarios.Values)
-                {
-                    clienteConectado.Close();
-                }
+                cliente.Close();
             }
-            catch{ }
             _listenerServidor.Stop();
         }
         public static void CriarBackup(string logMensagens)
