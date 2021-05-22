@@ -10,7 +10,6 @@ namespace Cliente
         {
             InitializeComponent();
             Client.StatusChanged += OnStatusChanged;
-            lblNome.Text += Client.NomeUsuario;
         }
 
         private void Enviar()
@@ -64,6 +63,8 @@ namespace Cliente
         //TRATAMENTOS DE FORMULÁRIO
         private void frmChat_Shown(object sender, EventArgs e)
         {
+            lblNome.Text += Client.NomeUsuario;
+            Text = $"Chat - {Client.NomeUsuario}";
             cmbEmoticons.Items.Clear();
             Emoticons emotes = new Emoticons();
             foreach (string emoticon in emotes.ListaEmoticons)
